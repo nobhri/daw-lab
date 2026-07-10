@@ -68,6 +68,16 @@ feature `edition2024` is required
 When this appears during dependency resolution on an older stable toolchain,
 check both the direct dependency version and newly selected transitive versions.
 
+The first GitHub Actions run also failed while compiling `alsa-sys` on Linux:
+
+```text
+The system library `alsa` required by crate `alsa-sys` was not found.
+```
+
+`cpal` uses ALSA for Linux audio output, so compilation requires the ALSA
+development package even though CI does not access audio hardware. The workflow
+installs `libasound2-dev` before running Clippy and tests.
+
 ## Verification
 
 Automated checks:
