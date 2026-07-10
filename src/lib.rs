@@ -2,6 +2,8 @@ use std::f32::consts::TAU;
 use std::fs;
 use std::path::Path;
 
+pub mod playback;
+
 pub const SAMPLE_RATE: u32 = 44_100;
 pub const FREQUENCY_HZ: f32 = 440.0;
 pub const DURATION_SECONDS: f32 = 1.0;
