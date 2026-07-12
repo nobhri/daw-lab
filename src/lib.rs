@@ -2,6 +2,7 @@ use std::f32::consts::TAU;
 use std::fs;
 use std::path::Path;
 
+pub mod clock;
 pub mod playback;
 
 pub const SAMPLE_RATE: u32 = 44_100;

@@ -1,3 +1,4 @@
+use crate::clock::Clock;
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 use cpal::{FromSample, Sample, SampleFormat, SizedSample};
 use std::error::Error;
@@ -100,7 +101,7 @@ where
 {
     let output_channels = usize::from(config.channels);
     let input_channels = usize::from(audio.channels);
-    let mut frame_index = 0;
+    let mut clock = Clock::new(audio.sample_rate);
     let mut finished = false;
 
     device.build_output_stream(
@@ -111,10 +112,12 @@ where
                 output_channels,
                 &audio.samples,
                 input_channels,
-                &mut frame_index,
+                &mut clock,
             );
 
-            if !finished && frame_index * input_channels >= audio.samples.len() {
+            if !finished
+                && clock.position_samples() as usize * input_channels >= audio.samples.len()
+            {
                 finished = true;
                 let _ = finished_tx.try_send(());
             }
@@ -129,12 +132,12 @@ fn write_output_data<T>(
     output_channels: usize,
     input: &[f32],
     input_channels: usize,
-    frame_index: &mut usize,
+    clock: &mut Clock,
 ) where
     T: Sample + FromSample<f32>,
 {
     for output_frame in output.chunks_mut(output_channels) {
-        let input_start = *frame_index * input_channels;
+        let input_start = clock.position_samples() as usize * input_channels;
 
         for (channel, output_sample) in output_frame.iter_mut().enumerate() {
             let sample = input
@@ -145,7 +148,7 @@ fn write_output_data<T>(
         }
 
         if input_start < input.len() {
-            *frame_index += 1;
+            clock.advance(1);
         }
     }
 }
@@ -157,21 +160,37 @@ mod tests {
     #[test]
     fn mono_input_is_copied_to_each_output_channel() {
         let mut output = [0.0_f32; 4];
-        let mut frame_index = 0;
+        let mut clock = Clock::new(44_100);
 
-        write_output_data(&mut output, 2, &[0.25, -0.5], 1, &mut frame_index);
+        write_output_data(&mut output, 2, &[0.25, -0.5], 1, &mut clock);
 
         assert_eq!(output, [0.25, 0.25, -0.5, -0.5]);
-        assert_eq!(frame_index, 2);
+        assert_eq!(clock.position_samples(), 2);
     }
 
     #[test]
     fn output_is_silent_after_input_ends() {
         let mut output = [1.0_f32; 4];
-        let mut frame_index = 0;
+        let mut clock = Clock::new(44_100);
 
-        write_output_data(&mut output, 2, &[0.25], 1, &mut frame_index);
+        write_output_data(&mut output, 2, &[0.25], 1, &mut clock);
 
         assert_eq!(output, [0.25, 0.25, 0.0, 0.0]);
+        assert_eq!(clock.position_samples(), 1);
+    }
+
+    #[test]
+    fn clock_position_continues_across_output_buffers() {
+        let input = [0.25, -0.5];
+        let mut first_output = [0.0_f32; 2];
+        let mut second_output = [0.0_f32; 2];
+        let mut clock = Clock::new(44_100);
+
+        write_output_data(&mut first_output, 2, &input, 1, &mut clock);
+        write_output_data(&mut second_output, 2, &input, 1, &mut clock);
+
+        assert_eq!(first_output, [0.25, 0.25]);
+        assert_eq!(second_output, [-0.5, -0.5]);
+        assert_eq!(clock.position_samples(), 2);
     }
 }
