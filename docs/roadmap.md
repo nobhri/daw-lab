@@ -7,7 +7,7 @@ testable.
 
 - [x] Step 0: Offline sine WAV generator
 - [x] Step 1: WAV playback via CPAL
-- [ ] Step 2: Sample-accurate clock
+- [x] Step 2: Sample-accurate clock
 - [ ] Step 3: Generated click track
 - [ ] Step 4: Offline mixer
 - [ ] Step 5: Live input recording

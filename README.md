@@ -26,7 +26,7 @@ Defer complexity until the pain is real.
 
 ## Current status
 
-Steps 0 and 1 are complete. Step 2, a sample-accurate clock, is next.
+Steps 0 through 2 are complete. Step 3, a generated click track, is next.
 
 See the [MVP roadmap](docs/roadmap.md) for the full build plan.
 
