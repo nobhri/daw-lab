@@ -26,7 +26,7 @@ Defer complexity until the pain is real.
 
 ## Current status
 
-Steps 0 through 2 are complete. Step 3, a generated click track, is next.
+Steps 0 through 3 are complete. Step 4, an offline mixer, is next.
 
 See the [MVP roadmap](docs/roadmap.md) for the full build plan.
 
@@ -42,6 +42,19 @@ Play it through the default audio output device:
 
 ```bash
 cargo run -- play
+```
+
+Generate the default 120 BPM click track:
+
+```bash
+cargo run -- click
+```
+
+This writes a four-second mono WAV file to `output/click_120.wav`. Listen to it
+with:
+
+```bash
+cargo run -- play output/click_120.wav
 ```
 
 Run the hardware-independent test suite:
