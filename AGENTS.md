@@ -48,6 +48,11 @@ See `docs/dev/contributing.md` for detailed commit and PR workflow.
 ## Learning Workflow
 
 - Offer code-reading prompts when they help explain the next Rust or audio-engine concept.
+- Track unresolved learning topics in `docs/learning-backlog.md`. Keep this as a living topic-based list, separate from chronological session retrospectives.
+- Give each learning-backlog topic a status, return trigger, focused questions, completion evidence, related source and session links, and a relevant milestone tag or commit.
+- Review the learning backlog before work that matches a topic's return trigger. Open topics do not block unrelated implementation work.
+- Mark understood topics as completed instead of deleting them.
+- Treat milestone tags as snapshots of implementation states, not proof of understanding. If a tag is missing, record the relevant commit and pending tag without creating it during unrelated work.
 - When a real error occurs, capture the error pattern and fix in README or a session retrospective if it is likely to help later.
 - At the end of each learning session, offer to create or update a short retrospective under `docs/sessions/`.
 - Name retrospective files as `YYYY-MM-DD-NN-topic.md`, where `NN` is a two-digit sequence number for that date, for example `2026-07-08-01-step-0-offline-sine.md`.

@@ -36,6 +36,9 @@ sample time to represent playback position.
 Generate a click signal from BPM and sample position. This step introduces
 BPM-to-sample math without relying on a pre-rendered click WAV.
 
+See the [Step 3 implementation plan](plans/step-3-generated-click-track.md) for
+the intended scope, learning checkpoints, and validation.
+
 ## Step 4: Offline mixer
 
 Mix two generated or loaded audio sources sample by sample and export the result
