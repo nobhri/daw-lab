@@ -59,4 +59,44 @@ callback.
 - `docs/sessions/2026-07-12-02-step-2-sample-clock.md`
 - `docs/sessions/2026-07-13-01-step-2-clock-code-reading.md`
 - Step 2 merge commit: `e7fa6b0`
-- Planned milestone tag: `step-2-complete` (not created yet)
+- Milestone tag: `step-2-complete`
+
+## Generated click timing and waveform
+
+Status: Open
+
+Introduced in: Step 3
+
+Return trigger: Before beginning Step 4 implementation.
+
+### Questions
+
+- Explain why `sample_rate * 60 / BPM` gives the number of sample frames per
+  beat.
+- Explain why `samples_per_beat` rounds to a whole frame and what timing error
+  that can introduce.
+- Trace `sample_position % beat_interval` at the start of two consecutive
+  beats.
+- Explain how click duration in seconds becomes a length in sample frames.
+- Trace how the cosine waveform and linear fade-out envelope combine within
+  one click.
+- Explain how `generate_click_track` uses an absolute sample position without
+  depending on audio hardware.
+
+### Completion evidence
+
+- Calculate the 120 BPM interval at 44,100 Hz without referring to the source.
+- Predict whether selected sample positions are inside a click or silent.
+- Trace the first few values passed from `generate_click_track` to
+  `click_sample`.
+- Explain why every generated sample remains in `-1.0..=1.0`.
+- Relate each focused unit test to one behavior in the implementation.
+
+### Related material
+
+- `src/click.rs`
+- `src/lib.rs`
+- `src/main.rs`
+- `docs/plans/step-3-generated-click-track.md`
+- `docs/sessions/2026-07-23-02-step-3-generated-click.md`
+- Planned milestone tag: `step-3-complete` (not created yet)

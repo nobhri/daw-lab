@@ -2,6 +2,7 @@ use std::f32::consts::TAU;
 use std::fs;
 use std::path::Path;
 
+pub mod click;
 pub mod clock;
 pub mod playback;
 
@@ -45,6 +46,11 @@ pub fn write_float_wav<P: AsRef<Path>>(
 
 pub fn write_default_sine_wav<P: AsRef<Path>>(path: P) -> hound::Result<()> {
     let samples = generate_sine_wave(SAMPLE_RATE, FREQUENCY_HZ, DURATION_SECONDS);
+    write_float_wav(path, &samples, SAMPLE_RATE)
+}
+
+pub fn write_default_click_wav<P: AsRef<Path>>(path: P) -> hound::Result<()> {
+    let samples = click::generate_default_click_track(SAMPLE_RATE);
     write_float_wav(path, &samples, SAMPLE_RATE)
 }
 
