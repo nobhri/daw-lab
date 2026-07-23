@@ -56,6 +56,7 @@ Audio playback requires a system audio device. See the
 ## Documentation
 
 - [MVP roadmap](docs/roadmap.md)
+- [Learning backlog](docs/learning-backlog.md)
 - [Architecture decisions](docs/adr/README.md)
 - [Contribution workflow](docs/dev/contributing.md)
 - [Learning session notes](docs/sessions/)
